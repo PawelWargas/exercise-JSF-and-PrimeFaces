@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>tabela</title>
+        <h:outputStylesheet name="myStyle.css" library="css"/>
+    </h:head>
+    <h:body>
+        <div style="height: 20px;"></div>
+          <h:form>
+            <h:panelGrid id="menuSelect" columns="4" style="margin: 0 auto; width: 90%">
+                <p:column>
+                    <h:commandButton value="#{msgs.mapBtn}" style="width: 100%; height: 40px;" action="map"/>
+                </p:column>    
+                <p:column>
+                    <h:commandButton value="#{msgs.carouselBtn}" style="width: 100%; height: 40px;" h:action="carousel"/>
+                </p:column>
+                 <p:column>
+                     <h:commandButton value="#{msgs.mainBtn}" style="width: 100%; height: 40px;" action="#{requestController.mainSite()}"/>
+                </p:column>
+                <p:column>
+                    <h:commandButton value="#{msgs.logoutBtn}" style="width: 100%; height: 40px;" action="#{requestController.logout()}"/>
+                </p:column>
+        
+            </h:panelGrid>
+        </h:form> 
+        <div style="height: 20px;"></div>
+      <h:form>
+          <h:dataTable value="#{tableViewController.userToList}" var="userToList"
+                     bgcolor="gray" border="3" cellspacing="2"
+                     rows="0" captionClass="warningMessage" footerClass="errorMessage" rowClasses="oddRow,evenRow" style="margin: 0 auto;">
+            <h:column>
+                <f:facet name="header">Identyfikator</f:facet>
+                <h:outputText value="#{userToList.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nazwisko
+                    <h:commandButton id="sortDown" value='&dArr;'>
+                        <f:ajax listener="#{tableViewController.sort('asc')}" render="@form"/>
+                    </h:commandButton>
+                    <h:commandButton id="sortUP" value='&uArr;'>
+                        <f:ajax listener="#{tableViewController.sort('desc')}" render="@form"/>
+                    </h:commandButton>
+                </f:facet>
+                <h:inputText value="#{userToList.nazwisko}" rendered="#{userToList.edited}"/>
+                <h:outputText value="#{userToList.nazwisko}" rendered="#{not userToList.edited}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Imie</f:facet>
+                <h:inputText value="#{userToList.imie}" rendered="#{userToList.edited}"/>
+                <h:outputText value="#{userToList.imie}" rendered="#{not userToList.edited}"/>
+            </h:column>
+            <h:column id="kolOperacja">
+                <f:facet name="header">Operacja</f:facet>
+                <h:selectBooleanCheckbox id="editCheckBox" value="#{userToList.edited}" rendered="true" onchange="submit()">
+                    <f:ajax listener="#{tableViewController.change(userToList)}"
+                            execute="@form" render="@form"/>
+                </h:selectBooleanCheckbox>
+                <h:commandButton id="addRow" value="+">
+                    <f:ajax listener="#{tableViewController.addRow()}" execute="@form" render="@form"/>
+                </h:commandButton>
+                <h:commandButton id="deleteRow" value="-">
+                    <f:ajax listener="#{tableViewController.deleteRow(userToList)}" execute="@form" render="@form"/>
+                </h:commandButton>
+            </h:column>
+        </h:dataTable>
+          <div style="height: 40px;"></div>
+          <p:panelGrid style="margin: 0 auto" columns="1">
+              <p:column>
+                  <h:commandButton value="Odczyt danych" action="#{tableViewController.getData()}" style="height: 40px;"/>
+              </p:column>
+              
+          </p:panelGrid>
+          
+        </h:form>
+        <h:messages style="color: red" />
+    </h:body>
+</html>
+

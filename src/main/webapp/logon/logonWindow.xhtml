@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Zaloguj sie do aplikacji</title>
+        <h:outputStylesheet name="myStyle.css" library="css"/>
+    </h:head>
+    <h:body>
+        <h:form pt:method="post" pt:action="j_security_check">
+            <div style="height: 200px;"></div>
+            <h:panelGrid columns="2" cellpadding="5" style="margin: 0 auto;">
+                <h:outputLabel for="j_username" value="#{msgs.login}" />
+                <p:inputText pt:name="j_username" id="j_username" required="true" label="j_username" />
+             
+                <h:outputLabel for="j_password" value="#{msgs.password}" />
+                <p:password pt:name="j_password" id="j_password" required="true" label="j_password" size="20"/>
+             
+                <f:facet name="footer">
+                    <input type="submit" styleClass="mr-2" value="#{msgs.loginBtn}"/>
+                </f:facet>  
+        </h:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+
